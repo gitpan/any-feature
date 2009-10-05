@@ -1,17 +1,18 @@
 package any::feature;
-
+use 5.008;
 use strict;
 use warnings;
 use Perl::Version;
 use Carp qw(croak);
-
-# FIXME don't load these under 5.10?
 use UNIVERSAL::require;
-use B::Hooks::EndOfScope;
 
-our $VERSION = '0.01';
+BEGIN {
+    if ($] =~ /^5\.008/) {
+        require B::Hooks::EndOfScope;
+    }
+}
 
-my $perl_version = Perl::Version->new($]);
+our $VERSION = '0.02';
 
 my %dispatch = (
     activate => {
@@ -21,11 +22,9 @@ my %dispatch = (
                 Perl6::Say->require or die $@;
                 {
                     no strict 'refs';
-                    *{ "${target}::say" } = \&Perl6::Say::say;
+                    *{"${target}::say"} = \&Perl6::Say::say;
                 }
-
                 on_scope_end { deactivate($target, 'say') };
-
             },
             10 => sub {
                 feature->require or die $@;
@@ -49,9 +48,23 @@ my %dispatch = (
     },
 );
 
+sub get_effective_revision {
+    our $perl_version ||= Perl::Version->new($]);
+    $perl_version->revision;
+}
+
+sub get_effective_version {
+    our $perl_version ||= Perl::Version->new($]);
+    my $version = $perl_version->version;
+
+    # assume perl 5.11 and later behave the same as perl 5.10
+    $version = 10 if $version > 10;
+    $version;
+}
+
 sub dispatch {
     my ($direction, $target, $feature) = @_;
-    my $code = $dispatch{$direction}{$feature}{ $perl_version->version };
+    my $code = $dispatch{$direction}{$feature}{ get_effective_version() };
     unless (ref $code eq 'CODE') {
         croak "unknown feature '$feature'\n";
     }
@@ -69,36 +82,28 @@ sub deactivate {
 }
 
 sub import {
-    my $pkg = shift;
+    my $pkg    = shift;
     my $target = (caller());
     $Carp::CarpInternal{__PACKAGE__}++;
-
-    unless ($perl_version->revision == 5) {
+    unless (get_effective_revision() == 5) {
         croak "perl 5.* required\n";
     }
-
     for my $feature (@_) {
         activate($target, $feature);
     }
 }
 
 sub unimport {
-    my $pkg = shift;
+    my $pkg    = shift;
     my $target = (caller());
-
-    unless ($perl_version->revision == 5) {
+    unless (get_effective_revision() == 5) {
         croak "perl 5.* required\n";
     }
-
     for my $feature (@_) {
         deactivate($target, $feature);
     }
 }
-
-
 1;
-
-
 __END__
 
 =head1 NAME
@@ -122,12 +127,14 @@ looks like this:
     use feature 'say';
     say 'Hello, world!';
 
-But this only works in Perl 5.10, because there is no C<feature> module in Perl 5.8. So you write
+But this only works in Perl 5.10, because there is no C<feature> module in
+Perl 5.8. So you write
 
     use Perl6::Say;
     say 'Hello, world!';
 
-This works, but it's strange to force Perl 5.10 users to install L<Perl6::Say> when the C<say> feature is included in Perl 5.10.
+This works, but it's strange to force Perl 5.10 users to install L<Perl6::Say>
+when the C<say> feature is included in Perl 5.10.
 
 =head2 THE SOLUTION
 
@@ -147,20 +154,10 @@ The following programs should work and exhibit the same behaviour both in Perl
 
 This program will work:
 
-    #!/usr/bin/env perl
-
-    use warnings;
-    use strict;
-
     use any::feature 'say';
     say 'Hello, world!';
 
 This program will fail at compile-time:
-
-    #!/usr/bin/env perl
-
-    use warnings;
-    use strict;
 
     use any::feature 'say';
     say 'Hello, world!';
@@ -206,6 +203,16 @@ C<activate()> and C<deactivate()> to do its job.
 Takes the same arguments as Perl 5.10's C<no feature> pragma. Uses
 C<activate()> and C<deactivate()> to do its job.
 
+=item C<get_effective_version>
+
+Uses L<Perl::Version> to get the version number of the current perl
+interpreter.  This is used to decide the course of action.
+
+=item C<get_effective_revision>
+
+Uses L<Perl::Version> to get the revision number of the current perl
+interpreter.  This is used to decide the course of action.
+
 =back
 
 =head1 BUGS AND LIMITATIONS
@@ -223,7 +230,7 @@ See perlmodinstall for information and options on installing Perl modules.
 
 The latest version of this module is available from the Comprehensive Perl
 Archive Network (CPAN). Visit L<http://www.perl.com/CPAN/> to find a CPAN
-site near you. Or see L<http://www.perl.com/CPAN/authors/id/M/MA/MARCEL/>.
+site near you. Or see L<http://search.cpan.org/dist/any-feature/>.
 
 The development version lives at L<http://github.com/hanekomu/any-feature/>.
 Instead of sending patches, please fork this project using the standard git
