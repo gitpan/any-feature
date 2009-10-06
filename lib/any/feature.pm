@@ -8,23 +8,20 @@ use UNIVERSAL::require;
 
 BEGIN {
     if ($] =~ /^5\.008/) {
-        require B::Hooks::EndOfScope;
+        require mysubs;
     }
 }
-
-our $VERSION = '0.02';
-
+our $VERSION = '0.03';
 my %dispatch = (
     activate => {
         say => {
             8 => sub {
-                my $target = shift;
                 Perl6::Say->require or die $@;
-                {
-                    no strict 'refs';
-                    *{"${target}::say"} = \&Perl6::Say::say;
-                }
-                on_scope_end { deactivate($target, 'say') };
+
+                # no need to specify the target - mysubs uses
+                # Devel::Pragma::ccstash, which does the right thing if this
+                # module is subclassed
+                mysubs->import(say => \&Perl6::Say::say);
             },
             10 => sub {
                 feature->require or die $@;
@@ -35,10 +32,11 @@ my %dispatch = (
     deactivate => {
         say => {
             8 => sub {
-                my $target = shift;
-                Sub::Delete->require or die $@;
-                no strict 'refs';
-                Sub::Delete::delete_sub("${target}::say");
+
+                # no need to specify the target - mysubs uses
+                # Devel::Pragma::ccstash, which does the right thing if this
+                # module is subclassed
+                mysubs->unimport('say');
             },
             10 => sub {
                 feature->require or die $@;

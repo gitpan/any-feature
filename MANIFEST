@@ -1,6 +1,5 @@
 Changes
-inc/IO/Capture/Stderr.pm
-inc/IO/Capture/Stdout.pm
+inc/Capture/Tiny.pm
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
 inc/Module/Install/AuthorRequires.pm
@@ -29,6 +28,7 @@ README
 README.mkdn
 t/01_say.t
 t/02_say_scoped.t
+t/03_say_inner.t
 xt/author/00_compile.t
 xt/author/01_perl_critic.t
 xt/author/02_pod.t

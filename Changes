@@ -1,5 +1,10 @@
 Revision history for Perl extension any-feature
 
+0.03 Tue 2009.10.06 12:34:18 CEST (Marcel Gruenauer <marcel@cpan.org>)
+     - use mysubs.pm instead of B::Hooks::EndOfScope and Sub::Delete for safer
+       lexical subs (thanks chocolateboy)
+     - use Capture::Tiny instead of IO::Capture::* in tests
+
 0.02 Mon Oct  5 09:53:49 CEST 2009 (Marcel Gruenauer <marcel@cpan.org>)
      - UNIVERSAL::require is now used for 5.10.* as well
      - B::Hooks::Scope is only loaded for 5.8.*

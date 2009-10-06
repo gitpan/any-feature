@@ -11,13 +11,11 @@ requires 'Perl::Version';
 requires 'UNIVERSAL::require';
 
 if ($] =~ /^5\.008/) {
-    requires 'Sub::Delete';
     requires 'Perl6::Say';
-    requires 'B::Hooks::EndOfScope';
+    requires 'mysubs';
 }
 test_requires 'Test::More' => '0.70';
-test_requires 'IO::Capture::Stdout';
-test_requires 'IO::Capture::Stderr';
+test_requires 'Capture::Tiny';
 extra_tests;
 author_requires 'ShipIt';
 author_requires 'ShipIt::Step::DistClean';
