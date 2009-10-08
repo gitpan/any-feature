@@ -1,5 +1,8 @@
 Revision history for Perl extension any-feature
 
+0.04  Thu 2009.10.08 22:29:11 CEST (Marcel Gruenauer <marcel@cpan.org>)
+     - re-release with fixed inc::Module::Install::ReadmeMarkdownFromPod
+
 0.03 Tue 2009.10.06 12:34:18 CEST (Marcel Gruenauer <marcel@cpan.org>)
      - use mysubs.pm instead of B::Hooks::EndOfScope and Sub::Delete for safer
        lexical subs (thanks chocolateboy)

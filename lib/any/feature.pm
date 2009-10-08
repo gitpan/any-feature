@@ -11,7 +11,7 @@ BEGIN {
         require mysubs;
     }
 }
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 my %dispatch = (
     activate => {
         say => {
