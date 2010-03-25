@@ -1,14 +1,10 @@
+
 This is the Perl distribution any-feature.
-
-## Description
-
-It can be used like Perl 5.10's 'feature' pragma and will try to "do the right
-thing", regardless of whether you use Perl 5.8 or Perl 5.10.
 
 ## Installation
 
-any-feature installation is straightforward. If your CPAN shell is
-set up, you should just be able to do
+any-feature installation is straightforward.
+If your CPAN shell is set up, you should just be able to do
 
     % cpan any::feature
 
@@ -23,10 +19,9 @@ Then install it:
 
 ## Documentation
 
-any-feature documentation is available as in POD. So you can do:
+any-feature documentation is available as in POD.
+So you can do:
 
     % perldoc any::feature
 
-to read the documentation online with your favorite pager.
-
-Marcel Gruenauer
+to read the documentation with your favorite pager.

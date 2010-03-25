@@ -1,5 +1,11 @@
 Revision history for Perl extension any-feature
 
+1.100840  2010-03-25 20:59:46 Europe/Vienna
+    - converted the distribution to Dist::Zilla-style
+
+0.05  Tue 2010.02.09 23:59:49 CET (Marcel Gruenauer <marcel@cpan.org>)
+     - releng
+
 0.04  Thu 2009.10.08 22:29:11 CEST (Marcel Gruenauer <marcel@cpan.org>)
      - re-release with fixed inc::Module::Install::ReadmeMarkdownFromPod
 

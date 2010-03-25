@@ -1,6 +1,9 @@
 NAME
     any::feature - Backwards-compatible handling of new syntactic features
 
+VERSION
+    version 1.100840
+
 SYNOPSIS
         use any::feature 'say';
         say 'Hello, world!';
@@ -61,62 +64,62 @@ DESCRIPTION
         }
         say 'bar';     # dies at compile-time
 
-SUBROUTINES
-    "dispatch"
-        Takes as arguments a direction ("activate" or "deactivate"), a
-        package name and a feature name. Activates or deactivates the given
-        feature for the given package.
+FUNCTIONS
+  dispatch
+    Takes as arguments a direction ("activate" or "deactivate"), a package
+    name and a feature name. Activates or deactivates the given feature for
+    the given package.
 
-    "activate"
-        Takes as arguments a package name and a feature name. Uses
-        "dispatch()" to activate the given feature in the given package.
+  activate
+    Takes as arguments a package name and a feature name. Uses "dispatch()"
+    to activate the given feature in the given package.
 
-    "deactivate"
-        Takes as arguments a package name and a feature name. Uses
-        "dispatch()" to deactivate the given feature in the given package.
+  deactivate
+    Takes as arguments a package name and a feature name. Uses "dispatch()"
+    to deactivate the given feature in the given package.
 
-    "import"
-        Takes the same arguments as Perl 5.10's "use feature" pragma. Uses
-        "activate()" and "deactivate()" to do its job.
+  import
+    Takes the same arguments as Perl 5.10's "use feature" pragma. Uses
+    "activate()" and "deactivate()" to do its job.
 
-    "unimport"
-        Takes the same arguments as Perl 5.10's "no feature" pragma. Uses
-        "activate()" and "deactivate()" to do its job.
+  unimport
+    Takes the same arguments as Perl 5.10's "no feature" pragma. Uses
+    "activate()" and "deactivate()" to do its job.
 
-    "get_effective_version"
-        Uses Perl::Version to get the version number of the current perl
-        interpreter. This is used to decide the course of action.
+  get_effective_version
+    Uses Perl::Version to get the version number of the current perl
+    interpreter. This is used to decide the course of action.
 
-    "get_effective_revision"
-        Uses Perl::Version to get the revision number of the current perl
-        interpreter. This is used to decide the course of action.
-
-BUGS AND LIMITATIONS
-    No bugs have been reported.
-
-    Please report any bugs or feature requests through the web interface at
-    <http://rt.cpan.org>.
+  get_effective_revision
+    Uses Perl::Version to get the revision number of the current perl
+    interpreter. This is used to decide the course of action.
 
 INSTALLATION
     See perlmodinstall for information and options on installing Perl
     modules.
 
+BUGS AND LIMITATIONS
+    No bugs have been reported.
+
+    Please report any bugs or feature requests through the web interface at
+    <http://rt.cpan.org/Public/Dist/Display.html?Name=any-feature>.
+
 AVAILABILITY
     The latest version of this module is available from the Comprehensive
     Perl Archive Network (CPAN). Visit <http://www.perl.com/CPAN/> to find a
-    CPAN site near you. Or see <http://search.cpan.org/dist/any-feature/>.
+    CPAN site near you, or see <http://search.cpan.org/dist/any-feature/>.
 
     The development version lives at
     <http://github.com/hanekomu/any-feature/>. Instead of sending patches,
     please fork this project using the standard git and github
     infrastructure.
 
-AUTHORS
-    Marcel Grünauer, "<marcel@cpan.org>"
+AUTHOR
+      Marcel Gruenauer <marcel@cpan.org>
 
 COPYRIGHT AND LICENSE
-    Copyright 2009 by Marcel Grünauer
+    This software is copyright (c) 2009 by Marcel Gruenauer.
 
-    This library is free software; you can redistribute it and/or modify it
-    under the same terms as Perl itself.
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
 
